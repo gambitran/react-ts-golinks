@@ -1,0 +1,21 @@
+.linkBox {
+    border: 2px solid #333; /* Border with a solid color */
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Shadow: horizontal offset, vertical offset, blur radius, color */
+    padding: 10px; /* Add some padding inside the box */
+    margin: 20px; /* Add some margin outside the box */
+}
+
+.name {
+    font-size: 32px;
+    font-weight: bold
+}
+
+.url {
+    font-size: 14px;
+    font-style: italic;
+    color: grey;
+}
+
+.description {
+    font-size: 16px;
+}
