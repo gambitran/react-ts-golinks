@@ -1,12 +1,14 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Link } from '../../components/Link'
 
 export const Home = () => {
-    const [data, _] = useState([
+    // const [data, _] = useState([
+    let data = [
         {name: 'fb', description: 'Facebook', url: 'https://facebook.com'},
         {name: 'yt', description: 'Youtube', url: 'https://youtube.com'},
         {name: 'argocd', description: 'ArgoCD', url: 'https://argoproj.github.io/cd/'}
-    ])
+    ]
+    // ])
 
     return (
         <div>

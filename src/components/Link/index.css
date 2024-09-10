@@ -1,8 +1,23 @@
-.linkBox {
-    border: 2px solid #333; /* Border with a solid color */
+.linkContainer {
+    border: 2px solid #333;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Shadow: horizontal offset, vertical offset, blur radius, color */
-    padding: 10px; /* Add some padding inside the box */
-    margin: 20px; /* Add some margin outside the box */
+    padding: 10px;
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dataContainer {
+    /* border: 2px solid white; */
+    display: flex;
+    flex-direction: column;
+    /* flex: 1; */
+}
+
+.actionContainer {
+    /* border: 2px solid white; */
+    display: flex;
 }
 
 .name {
