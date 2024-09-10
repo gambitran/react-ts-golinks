@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Link from '../../components/Link'
+import { Link } from '../../components/Link'
 
-const Home = () => {
+export const Home = () => {
     const [data, _] = useState([
         {name: 'fb', description: 'Facebook', url: 'https://facebook.com'},
         {name: 'yt', description: 'Youtube', url: 'https://youtube.com'},
@@ -17,5 +17,3 @@ const Home = () => {
        
     )
 }
-
-export default Home;

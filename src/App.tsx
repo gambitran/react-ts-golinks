@@ -1,8 +1,8 @@
 import './App.css'
 import { Outlet } from 'react-router';
-import Layout from './components/Layout'
+import { Layout } from './components/Layout'
 
-function App() {
+export const App = () => {
 
   return (
     <>
@@ -12,5 +12,3 @@ function App() {
     </>
   )
 }
-
-export default App

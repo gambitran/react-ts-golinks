@@ -1,6 +1,6 @@
 import './index.css'
 
-const Link = (prop: {name: string, description: string, url: string}) => {
+export const Link = (prop: {name: string, description: string, url: string}) => {
 
     return (
         <div className='linkBox'>
@@ -10,5 +10,3 @@ const Link = (prop: {name: string, description: string, url: string}) => {
         </div>
     )
 }
-
-export default Link
