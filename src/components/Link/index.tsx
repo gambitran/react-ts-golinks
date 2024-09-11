@@ -9,7 +9,8 @@ export interface LinkItem {
 
 export const Link = (prop: LinkItem) => {
 
-    const editLink = () => {
+    const editHandler = () => {
+        // Send to edit
     }
 
     const viewHandler = () => {
@@ -32,7 +33,7 @@ export const Link = (prop: LinkItem) => {
                                     <Visibility/>
                                 </IconButton>
                             </Tooltip>
-                            <IconButton>
+                            <IconButton onClick={editHandler}>
                                 <Edit/>
                             </IconButton>
                         </>
