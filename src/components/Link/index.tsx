@@ -1,7 +1,15 @@
 import { useState } from 'react';
-import './index.css';
+import { Card, CardContent, CardHeader, Icon, IconButton, Typography } from '@mui/material';
+import { Edit, Visibility } from '@mui/icons-material';
 
-export const Link = (prop: {name: string, description: string, url: string}) => {
+
+export interface LinkItem {
+    name: string;
+    description: string;
+    url: string
+}
+
+export const Link = (prop: LinkItem) => {
 
     const [isVisible, setIsVisible] = useState(true)
 
@@ -10,39 +18,34 @@ export const Link = (prop: {name: string, description: string, url: string}) => 
     }
 
     const editLink = () => {
-        console.log('hello')
     }
 
     return (
     <> 
         {isVisible && (
-            <div className='linkContainer'>
-                <div className='dataContainer'>
-                    <div className='name'>go/{prop.name}</div>
-                    <div className='url'>{prop.url}</div>
-                    <div className='description'>{prop.description}</div>
-                </div>
-                <div className='actionContainer'>
-                    <div 
-                        onClick={() => editLink()}
-                        style={{
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                border: '1px solid #ccc',
-                            }}>
-                        Edit
-                    </div>
-                    <div
-                        onClick={() => removeLink()}
-                        style={{
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            border: '1px solid #ccc',
-                        }}>
-                        x
-                    </div>
-                </div>
-            </div>
+            <Card elevation={5} sx={{ minWidth: 600, maxHeight: 200}}>
+                <CardHeader
+                    title={`go/${prop.name}`}
+                    titleTypographyProps={{ fontSize: 34}}
+                    subheader={prop.url}
+                    subheaderTypographyProps={{ fontSize: 14, fontStyle: 'italic'}}
+                    action={
+                        <>
+                            <IconButton>
+                                <Visibility />
+                            </IconButton>
+                            <IconButton>
+                                <Edit />
+                            </IconButton>
+                        </>
+                    }
+                />
+                <CardContent>
+                    <Typography variant={'body2'} color={'textSecondary'}>
+                        {prop.description}
+                    </Typography>
+                </CardContent>
+            </Card>
         )}
     </>
     )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Header }  from '../Header'
 import { Footer } from '../Footer'
+import { Container } from '@mui/material'
 
 interface ChildrenProp {
     children: React.ReactNode;
@@ -9,12 +10,10 @@ interface ChildrenProp {
 export const Layout: React.FC<ChildrenProp> = ({children}) => {
 
     return (
-        <div>
+        <>
             <Header/>
-            <main>
-                {children}
-            </main>
+            <Container>{children}</Container>
             <Footer/>
-        </div>
+        </>
     )
 }
