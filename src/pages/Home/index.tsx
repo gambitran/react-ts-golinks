@@ -1,5 +1,5 @@
 import { Link, LinkItem } from '../../components/Link'
-import { Grid2 } from '@mui/material'
+import { Box } from '@mui/material'
 
 export const Home = () => {
 
@@ -10,10 +10,10 @@ export const Home = () => {
     ]
 
     return (
-        <Grid2 container>
+        <Box>
             {data.map((link) => (
-                <Link {...link}/>
+                <Link key={link.name} {...link}/>
             ))}
-        </Grid2>
+        </Box>
     )
 }

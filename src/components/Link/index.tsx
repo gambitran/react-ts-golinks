@@ -1,7 +1,5 @@
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, Icon, IconButton, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, IconButton, Tooltip, Typography } from '@mui/material';
 import { Edit, Visibility } from '@mui/icons-material';
-
 
 export interface LinkItem {
     name: string;
@@ -11,31 +9,31 @@ export interface LinkItem {
 
 export const Link = (prop: LinkItem) => {
 
-    const [isVisible, setIsVisible] = useState(true)
-
-    const removeLink = () => {
-        setIsVisible(false)
+    const editLink = () => {
     }
 
-    const editLink = () => {
+    const viewHandler = () => {
+        console.log('hello')
     }
 
     return (
     <> 
-        {isVisible && (
-            <Card elevation={5} sx={{ minWidth: 600, maxHeight: 200}}>
+        {(
+            <Card elevation={5} sx={{ minWidth: 350, marginTop: 2, marginBottom: 2}}>
                 <CardHeader
                     title={`go/${prop.name}`}
-                    titleTypographyProps={{ fontSize: 34}}
+                    titleTypographyProps={{ fontSize: 34 }}
                     subheader={prop.url}
-                    subheaderTypographyProps={{ fontSize: 14, fontStyle: 'italic'}}
+                    subheaderTypographyProps={{ fontSize: 14, fontStyle: 'italic' }}
                     action={
                         <>
+                            <Tooltip title="3,000 total views" placement='left'>
+                                <IconButton disableRipple onClick={viewHandler}>
+                                    <Visibility/>
+                                </IconButton>
+                            </Tooltip>
                             <IconButton>
-                                <Visibility />
-                            </IconButton>
-                            <IconButton>
-                                <Edit />
+                                <Edit/>
                             </IconButton>
                         </>
                     }
