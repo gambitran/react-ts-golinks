@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader, IconButton, Tooltip, Typography } from '@mui/material';
 import { Edit, Visibility } from '@mui/icons-material';
 
-export interface LinkItem {
+export interface LinkData {
     name: string;
     description: string;
-    url: string
+    url: string;
+    views: number
 }
 
-export const Link = (prop: LinkItem) => {
+export const Link = (prop: LinkData) => {
 
     const editHandler = () => {
         // Send to edit
@@ -28,7 +29,7 @@ export const Link = (prop: LinkItem) => {
                     subheaderTypographyProps={{ fontSize: 14, fontStyle: 'italic' }}
                     action={
                         <>
-                            <Tooltip title="3,000 total views" placement='left'>
+                            <Tooltip title={`${prop.views} views`} placement='left'>
                                 <IconButton disableRipple onClick={viewHandler}>
                                     <Visibility/>
                                 </IconButton>
