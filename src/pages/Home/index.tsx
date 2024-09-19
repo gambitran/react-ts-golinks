@@ -1,68 +1,85 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { getLinks, addLink } from '../../api/Backend'
-import { Link, LinkData } from '../../components/Link'
+import React, { useState, Fragment } from 'react'
+import { useCreateLinkMutation, useGetLinksQuery, LinkItem } from '../../api/Backend'
+import { Link } from '../../components/Link'
 import { 
     Fab, 
     Box, 
     Button,
+    CircularProgress,
     Container, 
     Dialog,
     DialogActions,
     DialogContent, 
     DialogTitle, 
-    TextField 
+    TextField,
+    Typography
 } from '@mui/material'
 import { Add } from '@mui/icons-material'
 
 
 export const Home = () => {
-    const [links, setLinks] = useState<LinkData[]>([])
-    const [open, setOpen] = useState(false);
+    const { data, error, isLoading } = useGetLinksQuery();
+    const [ createLink ] = useCreateLinkMutation();
 
-    const formOpenHandler = () => {
-        setOpen(true);
+    const [isAddFormOpen, setIsAddFormOpen] = useState(false);
+
+    const openAddFormHandler = () => {
+        setIsAddFormOpen(true);
     };
 
-    const formCloseHandler = () => {
-        setOpen(false);
+    const closeAddFormHandler = () => {
+        setIsAddFormOpen(false);
     };
-
-    useEffect(() => {
-        (async () => {
-            await getLinks()
-            .then(response => response.json())
-            .then(res => setLinks(res))
-        })();
-    },[]);
 
     return (
         <>
             <Container>
                 <Box>
-                    {links.map((link) => (
-                        <Link key={link.name} {...link}/>
-                    ))}
+                    {
+                        isLoading ? (
+                            <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
+                                <CircularProgress/>
+                            </Box>
+                        ) : error ? (
+                            <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
+                                <Box>Error fetching links...</Box>
+                            </Box>
+                        ) : ( data && data.length > 0 ? (
+                            data.map((link: LinkItem) => (
+                                <Link key={link.id} {...link}/>
+                            ))
+                        ) : (
+                            <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
+                                <Typography>No links yet. Click + to create one!</Typography>
+                            </Box>
+                        )
+                    )}
                 </Box>
             </Container>
             <Container>
                 <Box position='fixed' right='0' bottom='0' marginRight='10px' marginBottom='10px'>
                     <Fragment>
-                        <Fab onClick={formOpenHandler} color='default' size='medium'><Add fontSize='large'/></Fab>
+                        <Fab onClick={openAddFormHandler} color='default' size='medium'><Add fontSize='large'/></Fab>
                         <Dialog
-                            open={open}
-                            onClose={formCloseHandler}
+                            open={isAddFormOpen}
+                            onClose={closeAddFormHandler}
                             disableRestoreFocus
                             PaperProps={{
                                 component: 'form',
-                                onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+                                onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
                                     event.preventDefault();
                                     const formData = new FormData(event.currentTarget);
                                     const formJson = Object.fromEntries((formData as any).entries());
-                                    const { name, url, description } = formJson
-                                    addLink({name, url, description})
-                                    setLinks(links => [{'name': name, 'url': url, 'description': description, 'views': 0}, ...links])
+                                    const { newName, newUrl, newDescription } = formJson
+                                    await createLink({
+                                        name: newName,
+                                        url: newUrl,
+                                        description: newDescription
+                                    }).unwrap()
+                                    .catch((e) => console.log(e))
+                                    
                                     window.scrollTo(0, 0)
-                                    formCloseHandler();
+                                    closeAddFormHandler();
                                 }
                             }}
                         >
@@ -92,6 +109,9 @@ export const Home = () => {
                                 <TextField
                                     required
                                     fullWidth
+                                    multiline
+                                    rows={4}
+                                    slotProps={ { htmlInput: { maxLength: 255}}}
                                     margin='dense'
                                     id='description'
                                     name='description'
@@ -101,7 +121,7 @@ export const Home = () => {
                                 />
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={formCloseHandler}>Cancel</Button>
+                                <Button onClick={closeAddFormHandler}>Cancel</Button>
                                 <Button type='submit'>Submit</Button>
                             </DialogActions>
                         </Dialog>

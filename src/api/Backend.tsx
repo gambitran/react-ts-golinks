@@ -1,33 +1,59 @@
-export const getLinks = async () => {
-    const response = fetch('/links', {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
-    
-    return (response as Promise<any>)
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export interface LinkItem {
+    id: number;
+    name: string;
+    description: string;
+    url: string;
+    views: number;
 }
 
-interface postLink {
-    name: string,
-    url: string,
-    description: string
-} 
+export interface CreateLinkItem {
+    name: string;
+    description: string;
+    url: string;
+}
 
-export const addLink = async ({name, url, description}: postLink) => {
-    const response = fetch('/link', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name,
-            url: url,
-            description: description
+export interface DeleteLinkItem {
+    id: number;
+}
+
+export type LinkItems = Array<LinkItem>
+
+export const backendApi = createApi({
+    reducerPath: 'links',
+    baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+    tagTypes: ['Links'],
+    endpoints: (builder) => ({
+        getLinks: builder.query<LinkItems, void>({
+            query: () => 'links',
+            providesTags: ['Links'],
+        }),
+        createLink: builder.mutation({
+            query: (newLink: CreateLinkItem) => ({
+                url: 'link',
+                method: 'POST',
+                body: newLink
+            }),
+            invalidatesTags: ['Links']
+        }),
+        updateLink: builder.mutation({
+            query: (newLink: LinkItem) => ({
+                url: 'link',
+                method: 'PUT',
+                body: newLink
+            }),
+            invalidatesTags: ['Links']
+        }),
+        deleteLink: builder.mutation({
+            query: (id: DeleteLinkItem) => ({
+                url: 'link',
+                method: 'DELETE',
+                body: id
+            }),
+            invalidatesTags: ['Links']
         })
     })
+});
 
-    return (response as Promise<any>)
-}
+export const { useGetLinksQuery, useCreateLinkMutation, useUpdateLinkMutation, useDeleteLinkMutation } = backendApi;
