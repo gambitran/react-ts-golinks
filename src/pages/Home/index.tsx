@@ -1,6 +1,6 @@
-import React, { useState, Fragment } from 'react'
-import { useCreateLinkMutation, useGetLinksQuery, LinkItem } from '../../api/Backend'
-import { Link } from '../../components/Link'
+import React, { useState, Fragment } from 'react';
+import { useCreateLinkMutation, useGetLinksQuery, LinkItem } from '../../api/Backend';
+import { LinkCard } from '../../components/LinkCard';
 import { 
     Fab, 
     Box, 
@@ -13,14 +13,13 @@ import {
     DialogTitle, 
     TextField,
     Typography
-} from '@mui/material'
-import { Add } from '@mui/icons-material'
+} from '@mui/material';
+import { Add } from '@mui/icons-material';
 
 
 export const Home = () => {
     const { data, error, isLoading } = useGetLinksQuery();
     const [ createLink ] = useCreateLinkMutation();
-
     const [isAddFormOpen, setIsAddFormOpen] = useState(false);
 
     const openAddFormHandler = () => {
@@ -46,7 +45,7 @@ export const Home = () => {
                             </Box>
                         ) : ( data && data.length > 0 ? (
                             data.map((link: LinkItem) => (
-                                <Link key={link.id} {...link}/>
+                                <LinkCard key={link.id} {...link}/>
                             ))
                         ) : (
                             <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
@@ -70,11 +69,11 @@ export const Home = () => {
                                     event.preventDefault();
                                     const formData = new FormData(event.currentTarget);
                                     const formJson = Object.fromEntries((formData as any).entries());
-                                    const { newName, newUrl, newDescription } = formJson
+                                    const { name, url, description } = formJson
                                     await createLink({
-                                        name: newName,
-                                        url: newUrl,
-                                        description: newDescription
+                                        name: name,
+                                        url: url,
+                                        description: description
                                     }).unwrap()
                                     .catch((e) => console.log(e))
                                     
@@ -89,6 +88,7 @@ export const Home = () => {
                                     autoFocus
                                     required
                                     fullWidth
+                                    slotProps={ { htmlInput: { maxLength: 100}}}
                                     margin='dense'
                                     id='name'
                                     name='name'
@@ -99,6 +99,7 @@ export const Home = () => {
                                 <TextField
                                     required
                                     fullWidth
+                                    slotProps={ { htmlInput: { maxLength: 250}}}
                                     margin='dense'
                                     id='url'
                                     name='url'
@@ -110,8 +111,8 @@ export const Home = () => {
                                     required
                                     fullWidth
                                     multiline
-                                    rows={4}
-                                    slotProps={ { htmlInput: { maxLength: 255}}}
+                                    rows={3}
+                                    slotProps={ { htmlInput: { maxLength: 200}}}
                                     margin='dense'
                                     id='description'
                                     name='description'

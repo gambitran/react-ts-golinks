@@ -16,8 +16,9 @@ import {
 } from '@mui/material';
 import { Edit, Visibility } from '@mui/icons-material';
 import { useUpdateLinkMutation, useDeleteLinkMutation, LinkItem } from '../../api/Backend';
+import { Link } from 'react-router-dom'
 
-export const Link = ({id, name, description, url, views}: LinkItem) => {
+export const LinkCard = ({id, name, description, url, views}: LinkItem) => {
     const [openEdit, setOpenEdit] = useState(false);
     const [ updateLink ] = useUpdateLinkMutation();
     const [ deleteLink ] = useDeleteLinkMutation();
@@ -35,7 +36,7 @@ export const Link = ({id, name, description, url, views}: LinkItem) => {
         {(
             <Card elevation={5} sx={{ minWidth: 350, marginTop: 2, marginBottom: 2}}>
                 <CardHeader
-                    title={`go/${name}`}
+                    title={<Link to={`/${name}`} style={{ textDecoration: 'none', color: 'inherit'}}>go/{name}</Link>}
                     titleTypographyProps={{ fontSize: 34 }}
                     subheader={url}
                     subheaderTypographyProps={{ fontSize: 14, fontStyle: 'italic' }}
@@ -81,6 +82,7 @@ export const Link = ({id, name, description, url, views}: LinkItem) => {
                                             autoFocus
                                             required
                                             fullWidth
+                                            slotProps={ { htmlInput: { maxLength: 100}}}
                                             margin='dense'
                                             id='newName'
                                             name='newName'
@@ -92,6 +94,7 @@ export const Link = ({id, name, description, url, views}: LinkItem) => {
                                         <TextField
                                             required
                                             fullWidth
+                                            slotProps={ { htmlInput: { maxLength: 250}}}
                                             margin='dense'
                                             id='newUrl'
                                             name='newUrl'
@@ -104,14 +107,14 @@ export const Link = ({id, name, description, url, views}: LinkItem) => {
                                             required
                                             fullWidth
                                             multiline
-                                            rows={4}
+                                            rows={3}
                                             margin='dense'
                                             id='newDescription'
                                             name='newDescription'
                                             label='Description'
                                             type='text'
                                             variant='standard'
-                                            slotProps={ { htmlInput: { maxLength: 255}}}
+                                            slotProps={ { htmlInput: { maxLength: 200}}}
                                             defaultValue={description}
                                         />
                                     </DialogContent>

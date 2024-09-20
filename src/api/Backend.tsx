@@ -8,6 +8,14 @@ export interface LinkItem {
     views: number;
 }
 
+export interface GetLinkByNameItem {
+    name?: string;
+}
+
+// export interface GetLinkByIdItem {
+//     id?: string
+// }
+
 export interface CreateLinkItem {
     name: string;
     description: string;
@@ -28,6 +36,12 @@ export const backendApi = createApi({
         getLinks: builder.query<LinkItems, void>({
             query: () => 'links',
             providesTags: ['Links'],
+        }),
+        getLinkByName: builder.query<LinkItem, GetLinkByNameItem>({
+            query: (params: GetLinkByNameItem) => ({
+                url: `link?name=${params.name}`,
+                method: 'GET'
+            })
         }),
         createLink: builder.mutation({
             query: (newLink: CreateLinkItem) => ({
@@ -56,4 +70,10 @@ export const backendApi = createApi({
     })
 });
 
-export const { useGetLinksQuery, useCreateLinkMutation, useUpdateLinkMutation, useDeleteLinkMutation } = backendApi;
+export const { 
+    useGetLinksQuery, 
+    useGetLinkByNameQuery,
+    useCreateLinkMutation, 
+    useUpdateLinkMutation, 
+    useDeleteLinkMutation
+} = backendApi;
