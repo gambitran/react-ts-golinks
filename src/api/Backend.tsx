@@ -30,7 +30,7 @@ export type LinkItems = Array<LinkItem>
 
 export const backendApi = createApi({
     reducerPath: 'links',
-    baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
     tagTypes: ['Links'],
     endpoints: (builder) => ({
         getLinks: builder.query<LinkItems, void>({

@@ -5,15 +5,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     proxy: {
-        "/links": {
+        "/api": {
             target: "http://localhost:8000", // temp backend
             changeOrigin: true,
-            rewrite: (path) => path.replace(/^\/links/, '/links'),
-        },
-        "/link": {
-            target: "http://localhost:8000", // temp backend
-            changeOrigin: true,
-            rewrite: (path) => path.replace(/^\/link/, '/link'),
+            rewrite: (path) => path.replace(/^\/api/, ''),
         }
     }
   },
